@@ -20,6 +20,8 @@ import { useActiveTrack } from 'react-native-track-player'
 const PlayerScreen = () => {
 	const activeTrack = useActiveTrack()
 	const { imageColors } = usePlayerBackground(activeTrack?.artwork ?? unknownTrackImageUri)
+	console.log(imageColors);
+	
 
 	const { top, bottom } = useSafeAreaInsets()
 	const navigation = useNavigation()

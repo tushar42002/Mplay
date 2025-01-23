@@ -1,18 +1,25 @@
 import { Artist, Playlist, TrackWithPlaylist } from "@/helpers/types";
 import { Track } from "react-native-track-player";
 import { create } from "zustand";
-import library from "@/assets/data/library.json";
+// import library from "@/assets/data/library.json";
 import { useMemo } from "react";
 import { unknownTrackImageUri } from "@/constants/images";
 
 interface LibraryState {
     tracks: TrackWithPlaylist[];
+    // tracks: Track[];
     toggleTrackFavorite: (track: Track) => void
     addToPlaylist: (track: Track, playlistName: string) => void
+	reloadMusicData: () => void;
+	setTracks:(tracks: Track[]) => void
 }
 
+
+
 export const useLibraryStore = create<LibraryState>()((set) => ({
-	tracks: library,
+	// tracks: library,
+	tracks: [],
+	setTracks: (tracks: Track[]) => set({ tracks }),
 	toggleTrackFavorite: (track) =>
 		set((state) => ({
 			tracks: state.tracks.map((currentTrack) => {
@@ -39,9 +46,14 @@ export const useLibraryStore = create<LibraryState>()((set) => ({
 				return currentTrack
 			}),
 		})),
+		reloadMusicData: () =>
+		    //  loadMusicData()
+		set({ tracks: [] })
 }))
 
 export const useTracks = () => useLibraryStore((state) => state.tracks);
+
+// export const useReloadTracks = () => useLibraryStore((state) => state.toggleTrackFavorite);
 
 export const useFavorites = () => {
     const tracks = useLibraryStore((state) => state.tracks);
