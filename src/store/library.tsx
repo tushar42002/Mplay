@@ -4,67 +4,81 @@ import { create } from "zustand";
 // import library from "@/assets/data/library.json";
 import { useMemo } from "react";
 import { unknownTrackImageUri } from "@/constants/images";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
 
 interface LibraryState {
-    tracks: TrackWithPlaylist[];
-    // tracks: Track[];
-    toggleTrackFavorite: (track: Track) => void
-    addToPlaylist: (track: Track, playlistName: string) => void
-	reloadMusicData: () => void;
-	setTracks:(tracks: Track[]) => void
-}
-
-
+	tracks: Track[];
+	favorites: Track[]
+	Playlists: Playlist[]
+	toggleTrackFavorite: (track: Track) => void
+	addToPlaylist: (track: Track, playlistName: string) => void
+	setTracks: (tracks: Track[]) => void
+	setFavoriteTracks: (tracks: Track[]) => void
+	setPlaylists: (tracks: Playlist[]) => void
+};
 
 export const useLibraryStore = create<LibraryState>()((set) => ({
-	// tracks: library,
 	tracks: [],
-	setTracks: (tracks: Track[]) => set({ tracks }),
-	toggleTrackFavorite: (track) =>
-		set((state) => ({
-			tracks: state.tracks.map((currentTrack) => {
-				if (currentTrack.url === track.url) {
-					return {
-						...currentTrack,
-						rating: currentTrack.rating === 1 ? 0 : 1,
-					}
-				}
+	favorites: [],
+	Playlists: [],
+	setTracks: (tracks: Track[]) => set(() => ({ tracks: tracks })),
+	setFavoriteTracks: (tracks: Track[]) => set(() => ({ favorites: tracks })),
+	setPlaylists: (playlist: Playlist[]) => set(() => ({ Playlists: playlist })),
+	toggleTrackFavorite: async (track) => {
 
-				return currentTrack
-			}),
-		})),
-	addToPlaylist: (track, playlistName) =>
-		set((state) => ({
-			tracks: state.tracks.map((currentTrack) => {
-				if (currentTrack.url === track.url) {
-					return {
-						...currentTrack,
-						playlist: [...(currentTrack.playlist ?? []), playlistName],
-					}
-				}
+		console.log(track);
+		const favorites = JSON.parse(await AsyncStorage.getItem('favorites') as string) as Track[];
 
-				return currentTrack
-			}),
-		})),
-		reloadMusicData: () =>
-		    //  loadMusicData()
-		set({ tracks: [] })
-}))
+		if (favorites.find((fTrack) => fTrack.url === track.url)) {
+			await AsyncStorage.setItem('favorites', JSON.stringify(favorites.filter((fTrack) => fTrack.url !== track.url)));
+			set(() => ({ favorites: favorites.filter((fTrack) => fTrack.url !== track.url) }));
+		} else {
+			await AsyncStorage.setItem('favorites', JSON.stringify([...favorites, track]));
+		}
+
+		console.log(JSON.parse(await AsyncStorage.getItem('favorites') as string));
+		let updateFavorites = JSON.parse(await AsyncStorage.getItem('favorites') as string) as Track[];
+		set(() => ({ favorites: updateFavorites }));
+			
+	},
+	addToPlaylist: async (track, playlistName) => {
+
+		const playlists = await AsyncStorage.getItem('playlists');
+
+		if (playlists) {
+			const parsedPlaylists = JSON.parse(playlists) as Playlist[];
+
+			if (parsedPlaylists.find((playlist) => playlist.name === playlistName)) {
+
+				await AsyncStorage.setItem('playlists', JSON.stringify(
+					parsedPlaylists.map((playlist) => {
+						if (playlist.name === playlistName) {
+							return { ...playlist, tracks: [...playlist.tracks, track], artworkPreview: track.artwork ?? unknownTrackImageUri };
+						}
+						return playlist;
+					})
+				));
+			}
+		} else {
+			Alert.alert('Please creat a playlist first');
+		}
+		let updatedPlaylists = JSON.parse(await AsyncStorage.getItem('playlists') as string) as Playlist[];
+		set(() => ({ Playlists: updatedPlaylists }));
+	}
+}));
 
 export const useTracks = () => useLibraryStore((state) => state.tracks);
 
-// export const useReloadTracks = () => useLibraryStore((state) => state.toggleTrackFavorite);
-
 export const useFavorites = () => {
-    const tracks = useLibraryStore((state) => state.tracks);
-    const favorites = useMemo(() => tracks.filter((track) => track.rating === 1), [tracks]);
-    const toggleTrackFavorite = useLibraryStore((state) => state.toggleTrackFavorite);
+	const favorites = useLibraryStore((state) => state.favorites);
+	const toggleTrackFavorite = useLibraryStore((state) => state.toggleTrackFavorite);
 
-    return { favorites, toggleTrackFavorite };
+	return { favorites, toggleTrackFavorite, };
 };
 
 
-export const useArtists = () =>{
+export const useArtists = () => {
 	const tracks = useLibraryStore((state) => state.tracks);
 	const artists = useMemo(() => {
 		return tracks.reduce((acc, track) => {
@@ -84,32 +98,12 @@ export const useArtists = () =>{
 	}, [tracks])
 
 	return { artists }
-
-}
+};
 
 export const usePlaylists = () => {
-	const tracks = useLibraryStore((state) => state.tracks);
-	const playlists = useMemo(() => {
-		return tracks.reduce((acc, track) => {
-			track.playlist?.forEach((playlistName) => {
-				const existingPlaylist = acc.find((playlist) => playlist.name === playlistName)
+	const playlists = useLibraryStore((state) => state.Playlists);
+	const addToPlaylist = useLibraryStore((state) => state.addToPlaylist);
+	const setPlaylist = useLibraryStore((state) => state.setPlaylists);
 
-				if (existingPlaylist) {
-					existingPlaylist.tracks.push(track)
-				} else {
-					acc.push({
-						name: playlistName,
-						tracks: [track],
-						artworkPreview: track.artwork ?? unknownTrackImageUri,
-					})
-				}
-			})
-
-			return acc
-		}, [] as Playlist[])
-	} ,[tracks])
-
-	const addToPlaylist = useLibraryStore((state) => state.addToPlaylist)
-
-	return { playlists, addToPlaylist }
-}
+	return { playlists, addToPlaylist,setPlaylist }
+};

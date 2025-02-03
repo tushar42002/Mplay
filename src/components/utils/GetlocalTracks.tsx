@@ -1,4 +1,7 @@
+import { unknownTrackImageUri } from "@/constants/images";
+import { Playlist } from "@/helpers/types";
 import { useLibraryStore } from "@/store/library";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
     getAssetsAsync,
     requestPermissionsAsync,
@@ -13,6 +16,8 @@ import { Track } from "react-native-track-player";
 const useGetLocalTracks = () => {
 
     const setTracks = useLibraryStore((state) => state.setTracks);
+    const setFavoriteTracks = useLibraryStore((state) => state.setFavoriteTracks);
+    const setPlaylists = useLibraryStore((state) => state.setPlaylists);
 
     const loadMusicData = async () => {
 
@@ -26,12 +31,10 @@ const useGetLocalTracks = () => {
 
         // Get all assets default to 20 audio files
         let data = await getAssetsAsync({
-            first: 2, // Limit to 50 assets
-            // sortBy: ["duration"], // Sort by duration
-            // createdAfter: new Date(2020, 0, 1).getTime(), // Assets created after Jan 1, 2020
+            first: 2,
         });
-        //   console.log("Assets:", data.assets);
 
+        //   console.log("Assets:", data.assets);
         data = await getAssetsAsync({
             first: data.totalCount,
             sortBy: ["creationTime"],
@@ -48,15 +51,39 @@ const useGetLocalTracks = () => {
         }));
 
         setTracks(tracks);
-
     }
 
+    const getPlaylists = async () => {
+		const allPlaylists = await AsyncStorage.getItem('playlists');
+		console.log(allPlaylists);
+
+		if (allPlaylists) {
+			console.log(allPlaylists);
+			setPlaylists( JSON.parse(allPlaylists) as Playlist[]);
+		}else{
+			await AsyncStorage.setItem('playlists', JSON.stringify([{name: 'playlist1', tracks: [], artworkPreview: unknownTrackImageUri}]));
+            setPlaylists([{name: 'playlist1', tracks: [], artworkPreview: unknownTrackImageUri}]);
+		}
+	}
+
+    const getFavorites = async () => {
+		const favoritesTracks = await AsyncStorage.getItem('favorites');
+
+		if (favoritesTracks) {
+			setFavoriteTracks(JSON.parse(favoritesTracks) as Track[]);
+		} else {
+			await AsyncStorage.setItem('favorites', JSON.stringify([]));
+			setFavoriteTracks([]);
+		}
+	};
 
     useEffect(() => {
         loadMusicData();
-    }, [])
+        getFavorites();
+        getPlaylists();
+    }, []);
 
-}
+};
 
 export default useGetLocalTracks;
 

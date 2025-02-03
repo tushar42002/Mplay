@@ -39,7 +39,7 @@ export const FloatingPlayer = ({ style }: ViewProps) => {
 					text={displayedTrack.title ?? ''}
 					animationThreshold={25}
 				/>
-				<Text style={styles.trackTitle}>{displayedTrack.artist}</Text>
+				<Text style={styles.trackTitle} numberOfLines={1} >{displayedTrack.artist}</Text>
 			</View>
 
 			<View style={styles.trackControlsContainer}>
