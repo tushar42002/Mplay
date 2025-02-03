@@ -18,21 +18,21 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useActiveTrack } from 'react-native-track-player'
 
 const PlayerScreen = () => {
-	const activeTrack = useActiveTrack()
-	const { imageColors } = usePlayerBackground(activeTrack?.artwork ?? unknownTrackImageUri)
+	const activeTrack = useActiveTrack();
+	const { imageColors } = usePlayerBackground(activeTrack?.artwork ?? unknownTrackImageUri);
+	console.log('imageColors');
 
-	const { top, bottom } = useSafeAreaInsets()
-	const navigation = useNavigation()
+	const { top, bottom } = useSafeAreaInsets();
+	const navigation = useNavigation();
 
-
-	const { isFavorite, toggleFavorite } = useTrackPlayerFavorite()
+	const { isFavorite, toggleFavorite } = useTrackPlayerFavorite();
 
 	if (!activeTrack) {
 		return (
 			<View style={[defaultStyles.container, { justifyContent: 'center' }]}>
 				<ActivityIndicator color={colors.icon} />
 			</View>
-		)
+		);
 	}
 
 	return (
@@ -41,7 +41,7 @@ const PlayerScreen = () => {
 				// Handle the swipe down gesture
 				if (event.nativeEvent.translationY > 100) {
 					// Close the screen
-					navigation.goBack()
+					navigation.goBack();
 				}
 			}}
 		>
@@ -49,7 +49,7 @@ const PlayerScreen = () => {
 				style={{ flex: 1 }}
 				colors={
 					imageColors ?
-						imageColors.platform == 'ios' ?
+						imageColors.platform === 'ios' ?
 							[imageColors.background, imageColors.primary]
 							: [imageColors.vibrant, imageColors.darkMuted]
 						:
@@ -121,13 +121,13 @@ const PlayerScreen = () => {
 						</View>
 					</View>
 				</View>
-			</LinearGradient >
+			</LinearGradient>
 		</PanGestureHandler>
-	)
-}
+	);
+};
 
 const DismissPlayerSymbol = () => {
-	const { top } = useSafeAreaInsets()
+	const { top } = useSafeAreaInsets();
 
 	return (
 		<View
@@ -151,8 +151,8 @@ const DismissPlayerSymbol = () => {
 				}}
 			/>
 		</View>
-	)
-}
+	);
+};
 
 const styles = StyleSheet.create({
 	overlayContainer: {

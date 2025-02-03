@@ -1,3 +1,5 @@
+import useGetLocalTracks from '@/components/utils/GetlocalTracks'
+import GetlocalTracks from '@/components/utils/GetlocalTracks'
 import { playbackService } from '@/constants/playbackService'
 import { colors } from '@/constants/tokens'
 import { useLogTrackPlayerState } from '@/hooks/useLogTrackPlayerState'
@@ -15,13 +17,16 @@ const App = () => {
 
 	const handleTrackPlayerLoaded = useCallback(() => {
 		SplashScreen.hideAsync()
-	}, [])
+	}, []);
 
 	useSetupTrackPlayer({
 		onLoad: handleTrackPlayerLoaded,
-	})
+	});
 
-	useLogTrackPlayerState()
+	useLogTrackPlayerState();
+
+	useGetLocalTracks();
+
 
 	return (
 		<SafeAreaProvider>

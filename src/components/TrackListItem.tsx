@@ -76,7 +76,7 @@ export const TrackListItem = ({ track, onTrackSelect: handleTrackSelect }: Track
 
                 <StopPropagation>
                     <TrackShortcutsMenu track={track} >
-                    <Entypo name="dots-three-horizontal" size={18} color={colors.icon} />
+                    <Entypo name="dots-three-horizontal" style={{paddingVertical:20}} size={18} color={colors.icon} />
                     </TrackShortcutsMenu>
                 </StopPropagation>
 
