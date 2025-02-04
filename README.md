@@ -1,6 +1,6 @@
-# Mplay
+# Mplay / SoundLoome
 
-Mplay is a React Native music application that offers users an intuitive interface to explore and enjoy their music collection. The app features multiple screens, including Songs, Playlists, Artists, and Favorites, providing an organized and user-friendly experience.
+Mplay/SoundLoome is a React Native music application that offers users an intuitive interface to explore and enjoy their music collection. The app features multiple screens, including Songs, Playlists, Artists, and Favorites, providing an organized and user-friendly experience.
 
 ## Features
 
