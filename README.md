@@ -95,5 +95,5 @@ src/
         └── index.d.ts
 ```
 
-# thankyou for finding time to read this readme.md and my project explation if any one want to make chnages please create new brach. to contect me please go to my portfolio contact section thankyou a
-# link for portfolio <a href="https://tushar42002.github.io/portfolio/" target="_blank">visit my portfolio</a>
+ thankyou for read this readme.md and my project explation if anyone want to make chnages please create new brach. And to contect me please go to my portfolio contact section thankyou a
+ link for portfolio <a href="https://tushar42002.github.io/portfolio/" target="_blank">visit my portfolio</a>
