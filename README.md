@@ -16,6 +16,19 @@ Mplay/SoundLoome is a React Native music application that offers users an intuit
 - **TypeScript**: Ensuring type safety and enhancing code quality.
 - **Expo Router**: Simplifying navigation within the app.
 
+## Screenshots
+
+<p align="center">
+  <img src="./assets/screenshorts/soundloomeSongScreen].jpeg" width="45%" alt="Song Screen">
+  <img src="./assets/screenshorts/soundloomePlayer.jpeg" width="45%" alt="Player Screen">
+  <img src="./assets/screenshorts/soundloomeArtistScreen.jpeg" width="45%" alt="artist Screen">
+  <img src="./assets/screenshorts/soundloomeFavorate.jpeg" width="45%" alt="favorate Screen">
+  <img src="./assets/screenshorts/soundloomePlaylistScreen.jpeg" width="45%" alt="playlist Screen">
+  <img src="./assets/screenshorts/soudloomeplaylistTracks.jpeg" width="45%" alt="playlistTrack Screen">
+  <img src="./assets/screenshorts/soundloomeCreateNew.jpeg" width="45%" alt="create new playlist Screen">
+</p>
+
+
 
 ## Installation and Usage
 To run the project, follow these steps:
