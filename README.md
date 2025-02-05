@@ -18,14 +18,14 @@ Mplay/SoundLoome is a React Native music application that offers users an intuit
 
 ## Screenshots
 
-<p>
-  <img src="./assets/screenshorts/soundloomeSongScreen.jpeg" width="25%" alt="Song Screen">
-  <img src="./assets/screenshorts/soundloomePlayer.jpeg" width="25%" alt="Player Screen">
-  <img src="./assets/screenshorts/soundloomeArtistScreen.jpeg" width="25%" alt="artist Screen">
-  <img src="./assets/screenshorts/soundloomeFavorate.jpeg" width="25%" alt="favorate Screen">
-  <img src="./assets/screenshorts/soundloomePlaylistScreen.jpeg" width="25%" alt="playlist Screen">
-  <img src="./assets/screenshorts/soudloomeplaylistTracks.jpeg" width="25%" alt="playlistTrack Screen">
-  <img src="./assets/screenshorts/soundloomeCreateNew.jpeg" width="25%" alt="create new playlist Screen">
+<p align="center" style="display: flex; justify-content: center; gap: 20px;">
+  <img src="./assets/screenshorts/soundloomeSongScreen.jpeg" width="20%" alt="Song Screen">
+  <img src="./assets/screenshorts/soundloomePlayer.jpeg" width="20%" alt="Player Screen">
+  <img src="./assets/screenshorts/soundloomeArtistScreen.jpeg" width="20%" alt="artist Screen">
+  <img src="./assets/screenshorts/soundloomeFavorate.jpeg" width="20%" alt="favorate Screen">
+  <img src="./assets/screenshorts/soundloomePlaylistScreen.jpeg" width="20%" alt="playlist Screen">
+  <img src="./assets/screenshorts/soudloomeplaylistTracks.jpeg" width="20%" alt="playlistTrack Screen">
+  <img src="./assets/screenshorts/soundloomeCreateNew.jpeg" width="20%" alt="create new playlist Screen">
 </p>
 
 
